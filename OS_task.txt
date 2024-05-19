@@ -1,0 +1,30 @@
+import requests
+import json
+import sys
+
+url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyB9w2cQvxtkzimdnOJdYzUfdKnqek1olCk'
+text = ""
+if len(sys.argv) > 1:
+
+    text = sys.argv[1]
+else:
+    exit()
+headers = {
+    'Content-Type': 'application/json'
+}
+
+data = {
+    "contents": [
+        {
+            "parts": [
+                {
+                    "text": text
+                }
+            ]
+        }
+    ]
+}
+
+response = requests.post(url, headers=headers, data=json.dumps(data))
+
+print(response.json().get('candidates')[0].get('content').get('parts')[0].get('text'))
